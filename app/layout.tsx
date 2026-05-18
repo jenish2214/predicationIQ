@@ -6,6 +6,7 @@ import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PageTransition } from "@/components/page-transition";
+import { ScrollProgress } from "@/components/animations/scroll-progress";
 import { SiteBackground } from "@/components/site-background";
 import { ThemeProvider } from "@/components/theme-provider";
 import { createClient } from "@/lib/supabase/server";
@@ -107,6 +108,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SiteBackground />
+          <ScrollProgress />
           <div className="relative flex min-h-screen flex-col">
             <Navbar profile={profile} />
             <main className="flex-1">
