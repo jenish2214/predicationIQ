@@ -77,7 +77,19 @@ export default async function RootLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const profile = toAuthProfile(user);
+
+  let profileRow = null;
+  if (user) {
+    const { data } = await supabase
+      .from("profiles")
+      .select(
+        "id, email, display_name, provider_type, wallet_chain, wallet_address, created_at, updated_at"
+      )
+      .eq("id", user.id)
+      .maybeSingle();
+    profileRow = data;
+  }
+  const profile = toAuthProfile(user, profileRow);
 
   return (
     <html lang="en" suppressHydrationWarning>

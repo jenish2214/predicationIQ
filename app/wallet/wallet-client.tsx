@@ -32,6 +32,7 @@ import { SelectiveDisclosureDialog } from "@/components/selective-disclosure-dia
 import { ActivityList } from "@/components/activity-list";
 import { QrFrame } from "@/components/qr-frame";
 import { ConnectWalletButton } from "@/components/connect-wallet-button";
+import { ProviderBadge } from "@/components/provider-badge";
 import {
   MOCK_ACTIVITY,
   MOCK_CREDENTIALS,
@@ -41,8 +42,13 @@ import {
   type Credential,
 } from "@/lib/mock-data";
 import { cn, shortenAddress } from "@/lib/utils";
+import type { AuthProfile } from "@/lib/supabase/types";
 
-export function WalletPageClient() {
+export function WalletPageClient({
+  profile,
+}: {
+  profile: AuthProfile | null;
+}) {
   const [selected, setSelected] = React.useState<Credential | null>(null);
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [showBalance, setShowBalance] = React.useState(true);
@@ -70,18 +76,23 @@ export function WalletPageClient() {
         <div className="absolute inset-0 bg-dot-grid opacity-30" aria-hidden />
         <div className="relative grid gap-6 p-6 md:p-8 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-secondary">
-                <WalletIcon className="h-5 w-5 text-foreground" />
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border bg-secondary">
+                  <WalletIcon className="h-5 w-5 text-foreground" />
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    SovraID Wallet
+                  </p>
+                  <p className="text-sm font-medium text-foreground">
+                    {profile?.fullName ?? profile?.email ?? "Aarav Mehta"}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                  SovraID Wallet
-                </p>
-                <p className="text-sm font-medium text-foreground">
-                  Aarav Mehta
-                </p>
-              </div>
+              {profile ? (
+                <ProviderBadge providerType={profile.providerType} size="md" />
+              ) : null}
             </div>
 
             <div className="mt-6 space-y-3">
@@ -93,9 +104,17 @@ export function WalletPageClient() {
                 mono
               />
               <CopyRow
-                label="Wallet Address"
-                value={MOCK_WALLET_ADDRESS}
-                onCopy={() => copy(MOCK_WALLET_ADDRESS, "addr")}
+                label={
+                  profile?.walletChain === "ethereum"
+                    ? "Ethereum Address"
+                    : profile?.walletChain === "solana"
+                    ? "Solana Address"
+                    : "Wallet Address"
+                }
+                value={profile?.walletAddress ?? MOCK_WALLET_ADDRESS}
+                onCopy={() =>
+                  copy(profile?.walletAddress ?? MOCK_WALLET_ADDRESS, "addr")
+                }
                 copied={copied === "addr"}
                 short
                 mono
@@ -109,7 +128,11 @@ export function WalletPageClient() {
               </Badge>
               <Badge variant="outline">
                 <Globe2 className="h-3 w-3" />
-                Polygon Amoy
+                {profile?.walletChain === "ethereum"
+                  ? "Ethereum"
+                  : profile?.walletChain === "solana"
+                  ? "Solana"
+                  : "Polygon Amoy"}
               </Badge>
               <Badge variant="muted">3 issuers trusted</Badge>
             </div>

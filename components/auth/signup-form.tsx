@@ -68,7 +68,10 @@ export function SignupForm() {
         email: email.trim(),
         password,
         options: {
-          data: { full_name: fullName.trim() },
+          data: {
+            full_name: fullName.trim(),
+            provider_type: "email",
+          },
           emailRedirectTo:
             typeof window !== "undefined"
               ? `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`

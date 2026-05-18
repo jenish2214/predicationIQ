@@ -24,6 +24,8 @@ export interface WalletConnection {
   shortAddress: string;
 }
 
+export type WalletProviderType = "ethereum_wallet" | "solana_wallet";
+
 export interface WalletCredentials {
   email: string;
   password: string;
@@ -31,6 +33,7 @@ export interface WalletCredentials {
     full_name: string;
     wallet_address: string;
     wallet_chain: WalletChain;
+    provider_type: WalletProviderType;
   };
 }
 
@@ -148,6 +151,8 @@ export async function deriveWalletCredentials(
       full_name: `${conn.chain === "ethereum" ? "ETH" : "SOL"} ${conn.shortAddress}`,
       wallet_address: conn.address,
       wallet_chain: conn.chain,
+      provider_type:
+        conn.chain === "ethereum" ? "ethereum_wallet" : "solana_wallet",
     },
   };
 }

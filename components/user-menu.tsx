@@ -13,8 +13,9 @@ import {
 } from "lucide-react";
 
 import { signOutAction } from "@/app/auth/actions";
-import { cn } from "@/lib/utils";
+import { cn, shortenAddress } from "@/lib/utils";
 import type { AuthProfile } from "@/lib/supabase/types";
+import { ProviderBadge } from "@/components/provider-badge";
 
 interface UserMenuProps {
   profile: AuthProfile;
@@ -72,8 +73,20 @@ export function UserMenu({ profile, className }: UserMenuProps) {
                 Signed in as
               </p>
               <p className="mt-0.5 truncate text-sm font-medium text-foreground">
-                {profile.email ?? "—"}
+                {profile.fullName ?? profile.email ?? "—"}
               </p>
+              {profile.walletAddress ? (
+                <p className="mt-0.5 truncate font-mono text-[11px] text-muted-foreground">
+                  {shortenAddress(profile.walletAddress, 5)}
+                </p>
+              ) : profile.email ? (
+                <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
+                  {profile.email}
+                </p>
+              ) : null}
+              <div className="mt-2.5">
+                <ProviderBadge providerType={profile.providerType} />
+              </div>
             </div>
 
             <nav className="py-1">
