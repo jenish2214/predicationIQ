@@ -101,7 +101,7 @@
 }
 
 @layer components {
-  /* Subtle dotted background (no gradient) */
+  /* Subtle dotted background */
   .bg-dot-grid {
     background-image: radial-gradient(
       hsl(var(--border)) 1px,
@@ -110,12 +110,32 @@
     background-size: 24px 24px;
   }
 
-  /* Glass surface using solid colors + blur, no gradient */
+  /* Crisp grid lines for Web3-y backgrounds */
+  .bg-line-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Glass surface using solid colors + blur */
   .glass {
     background-color: hsl(var(--card) / 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--border));
+  }
+
+  /* Single-hue glow ring for primary actions (Web3 feel, no rainbow) */
+  .glow-primary {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.35),
+      0 8px 24px -8px hsl(var(--primary) / 0.45);
+  }
+  .glow-accent {
+    box-shadow:
+      0 0 0 1px hsl(var(--accent) / 0.35),
+      0 8px 24px -8px hsl(var(--accent) / 0.45);
   }
 
   .tricolor-bar {
@@ -159,5 +179,46 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Slow drift used on grid backgrounds for ambient motion */
+  .animate-grid-drift {
+    animation: grid-drift 18s linear infinite;
+  }
+
+  /* Soft pulse for status dots */
+  .animate-soft-pulse {
+    animation: soft-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes grid-drift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 56px 56px;
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-grid-drift,
+  .animate-soft-pulse,
+  .animate-scan-line,
+  .animate-pulse-ring {
+    animation: none;
   }
 }

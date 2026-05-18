@@ -5,7 +5,11 @@ import "./globals.css";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { PageTransition } from "@/components/page-transition";
+import { SiteBackground } from "@/components/site-background";
 import { ThemeProvider } from "@/components/theme-provider";
+import { createClient } from "@/lib/supabase/server";
+import { toAuthProfile } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({
@@ -64,11 +68,17 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const profile = toAuthProfile(user);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -84,9 +94,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          <SiteBackground />
           <div className="relative flex min-h-screen flex-col">
-            <Navbar />
-            <main className="flex-1">{children}</main>
+            <Navbar profile={profile} />
+            <main className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
           </div>
         </ThemeProvider>

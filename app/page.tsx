@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/section-heading";
+import { AnimatedNumber } from "@/components/animated-number";
 import { FEATURES } from "@/lib/mock-data";
 
 const STEPS = [
@@ -67,11 +68,17 @@ const TRUST = [
   },
 ];
 
-const STATS = [
-  { value: "1×", label: "KYC once, reuse forever" },
-  { value: "<3s", label: "Average verification time" },
-  { value: "0", label: "PII stored on our servers" },
-  { value: "100%", label: "User-held credentials" },
+const STATS: {
+  value: number;
+  suffix?: string;
+  prefix?: string;
+  decimals?: number;
+  label: string;
+}[] = [
+  { value: 1, suffix: "×", label: "KYC once, reuse forever" },
+  { value: 2.4, suffix: "s", decimals: 1, label: "Average verification time" },
+  { value: 0, label: "PII stored on our servers" },
+  { value: 100, suffix: "%", label: "User-held credentials" },
 ];
 
 export default function HomePage() {
@@ -127,7 +134,12 @@ export default function HomePage() {
               {STATS.map((stat) => (
                 <div key={stat.label}>
                   <div className="text-2xl font-semibold text-foreground">
-                    {stat.value}
+                    <AnimatedNumber
+                      value={stat.value}
+                      suffix={stat.suffix}
+                      prefix={stat.prefix}
+                      decimals={stat.decimals ?? 0}
+                    />
                   </div>
                   <div className="mt-1 text-xs text-muted-foreground">
                     {stat.label}
