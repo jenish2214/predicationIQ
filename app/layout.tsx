@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 import "./globals.css";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { PageTransition } from "@/components/page-transition";
-import { ScrollProgress } from "@/components/animations/scroll-progress";
-import { SiteBackground } from "@/components/site-background";
-import { ThemeProvider } from "@/components/theme-provider";
+import { AppPageContent } from "@/components/layout/app-page-content";
+import { LayoutShell } from "@/components/layout/layout-shell";
 import { createClient } from "@/lib/supabase/server";
 import { toAuthProfile } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils";
@@ -22,6 +21,12 @@ const inter = Inter({
 const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
+});
+
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -64,7 +69,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0f1f",
+  themeColor: "#050816",
   width: "device-width",
   initialScale: 1,
 };
@@ -93,30 +98,26 @@ export default async function RootLayout({
   const profile = toAuthProfile(user, profileRow);
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={cn(
           inter.variable,
           mono.variable,
+          display.variable,
           "min-h-screen bg-background font-sans text-foreground"
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <SiteBackground />
-          <ScrollProgress />
+        <LayoutShell>
           <div className="relative flex min-h-screen flex-col">
             <Navbar profile={profile} />
             <main className="flex-1">
-              <PageTransition>{children}</PageTransition>
+              <PageTransition>
+                <AppPageContent>{children}</AppPageContent>
+              </PageTransition>
             </main>
             <Footer />
           </div>
-        </ThemeProvider>
+        </LayoutShell>
       </body>
     </html>
   );

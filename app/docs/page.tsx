@@ -396,7 +396,7 @@ function FactCard({
   title,
   value,
 }: {
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
   title: string;
   value: string;
 }) {

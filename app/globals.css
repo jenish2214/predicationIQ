@@ -1,3 +1,5 @@
+@import "lenis/dist/lenis.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -44,9 +46,9 @@
   }
 
   .dark {
-    /* Premium fintech dark palette - deep navy + slate */
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
+    /* Futuristic SaaS — MetaMask-inspired deep space */
+    --background: 230 55% 4%;
+    --foreground: 210 40% 98%;
 
     --card: 222 47% 9%;
     --card-foreground: 210 40% 96%;
@@ -54,8 +56,8 @@
     --popover: 222 47% 9%;
     --popover-foreground: 210 40% 96%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 258 90% 66%;
+    --primary-foreground: 230 55% 4%;
 
     --secondary: 217 33% 14%;
     --secondary-foreground: 210 40% 96%;
@@ -63,8 +65,8 @@
     --muted: 217 33% 14%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 152 70% 45%;
-    --accent-foreground: 222 47% 6%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 230 55% 4%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 210 40% 96%;
@@ -87,7 +89,14 @@
     @apply border-border;
   }
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
+  }
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto;
   }
   body {
     @apply bg-background text-foreground antialiased;
@@ -165,6 +174,79 @@
     height: 1px;
     width: 100%;
     background-color: hsl(var(--border));
+  }
+
+  /* —— Premium landing utilities —— */
+  .glass-premium {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.45));
+  }
+
+  .gradient-border {
+    position: relative;
+    background: rgba(5, 8, 22, 0.75);
+    border-radius: inherit;
+  }
+  .gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.8),
+      rgba(59, 130, 246, 0.6),
+      rgba(236, 72, 153, 0.5)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  .gradient-border:hover::before {
+    opacity: 1;
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #c4b5fd 40%,
+      #93c5fd 70%,
+      #f9a8d4 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+  }
+
+  .gpu-layer {
+    transform: translateZ(0);
+    will-change: transform;
   }
 }
 

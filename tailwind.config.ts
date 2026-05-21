@@ -18,6 +18,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui"],
+        display: ["var(--font-display)", "var(--font-inter)", "ui-sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "SFMono-Regular"],
       },
       colors: {
@@ -58,6 +59,12 @@ const config: Config = {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",
         },
+        neon: {
+          purple: "#8B5CF6",
+          blue: "#3B82F6",
+          pink: "#EC4899",
+          black: "#050816",
+        },
         saffron: {
           DEFAULT: "hsl(var(--saffron))",
         },
@@ -70,6 +77,17 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        "mesh-gradient":
+          "radial-gradient(at 40% 20%, rgba(139,92,246,0.35) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(59,130,246,0.3) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(236,72,153,0.2) 0px, transparent 50%)",
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
+      boxShadow: {
+        neon: "0 0 40px -8px rgba(139, 92, 246, 0.55)",
+        "neon-blue": "0 0 40px -8px rgba(59, 130, 246, 0.5)",
+        "neon-pink": "0 0 40px -8px rgba(236, 72, 153, 0.45)",
+        glass: "0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.06)",
       },
       keyframes: {
         "fade-in": {
@@ -85,11 +103,36 @@ const config: Config = {
           "0%": { transform: "scale(1)", opacity: "0.6" },
           "100%": { transform: "scale(1.4)", opacity: "0" },
         },
+        "blob-1": {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "33%": { transform: "translate(30px, -40px) scale(1.05)" },
+          "66%": { transform: "translate(-20px, 20px) scale(0.95)" },
+        },
+        "blob-2": {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "50%": { transform: "translate(-40px, 30px) scale(1.08)" },
+        },
+        "border-spin": {
+          to: { "--border-angle": "360deg" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "200% center" },
+          "100%": { backgroundPosition: "-200% center" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.4s ease-out both",
         "scan-line": "scan-line 2.4s ease-in-out infinite",
         "pulse-ring": "pulse-ring 1.6s ease-out infinite",
+        "blob-1": "blob-1 14s ease-in-out infinite",
+        "blob-2": "blob-2 18s ease-in-out infinite",
+        float: "float 5s ease-in-out infinite",
+        shimmer: "shimmer 4s linear infinite",
+        "border-spin": "border-spin 4s linear infinite",
       },
     },
   },
